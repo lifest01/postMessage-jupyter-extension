@@ -2,21 +2,21 @@
 ---
 ## 1. Установить расширение [jupyter_contrib_nbextensions](https://github.com/ipython-contrib/jupyter_contrib_nbextensions)
 
-1. Установить python пакет
+#### 1. Установить python пакет
 ```sh
 pip install jupyter_contrib_nbextensions
 ```
-2. Установить javascript и css файлы
+#### 2. Установить javascript и css файлы
 ```sh
 jupyter contrib nbextension install --user
 ```
-3. Включение расширения nbextension
+#### 3. Включение расширения nbextension
 ```sh
 jupyter nbextension enable codefolding/main
 ```
 ---
 ## 2. Установка своего расширения 
-1. ### Найти расположение папки nbextensions
+### 1. Найти расположение папки nbextensions
 ```sh
 pip show jupyter_contrib_nbextensions
 ```
@@ -29,7 +29,7 @@ git clone https://github.com/lifest01/postMessage-jupyter-extension.git
 ```
 Итоговое расположение нашего расширения
 ```/Users/username/anaconda3/envs/jupyterexperiments/lib/python3.7/site-packages/jupyter_contrib_nbextensions/nbextensions/postMessage-jupyter-extension```
-2. ### Установить и включить расширение
+### 2. Установить и включить расширение
 ```sh
 jupyter nbextension install postMessage-jupyter-extension
 jupyter nbextension enable postMessage-jupyter-extension/main
