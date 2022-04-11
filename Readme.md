@@ -1,58 +1,53 @@
-Printview
-=========
-This extension adds a toolbar button to call `jupyter nbconvert` for the current the notebook and optionally display the converted file in a
-new browser tab.
+# Расширение для взаимодействия с jupyter-notebook встроенного в iframe.
+---
+## 1. Установить расширение [jupyter_contrib_nbextensions](https://github.com/ipython-contrib/jupyter_contrib_nbextensions)
 
-![printview toolbar button](printview-button.png)
-
-Supported ouput types to display in a tab are `html` and `pdf`.
-
-Parameters
-----------
-
- - **`printview_nbconvert_options`**: Options to pass to nbconvert. Default: `--to html`
-   To convert to PDF you can use ` --to pdf`. 
-   Using `--to pdf --template printviewlatex.tplx` as the parameter, using a
-   custom template generates a nice looking PDF document.
-   **Note**: Converting to PDF requires a Latex installation running on the
-   notebook server.
-
- - **`printview_open_tab`**: After conversion, open a new tab.
-   Only available when converting to html or pdf output format. Default true.
-
-
-Note
-----
-
-If you use matplotlib plots and want to generate a PDF document, it is useful to have the IPython backend generate high quality pdf versions of plots
- using this code snippet:
-
-```python
-ip = get_ipython()
-ibe = ip.configurables[-1]
-ibe.figure_formats = { 'pdf', 'png'}
+1. Установить python пакет
+```sh
+pip install jupyter_contrib_nbextensions
 ```
-
-Internals
----------
-
-The configuration is stored in the Jupyter configuration path `nbconfig/notebook.js` using two keys:
-`printview_nbconvert_options` and `printview_open_tab`.
-
-You can check the current configuration using the
-[jupyter_nbextensions_configurator](https://github.com/Jupyter-contrib/jupyter_nbextensions_configurator)
-server extension, or with this code snippet:
-
-```python
-import os
-from jupyter_core.paths import jupyter_config_dir, jupyter_data_dir
-from traitlets.config.loader import Config, JSONFileConfigLoader
-
-json_config = os.path.join(jupyter_config_dir(), 'nbconfig/notebook.json')
-if os.path.isfile(json_config) is True:
-    cl = JSONFileConfigLoader(json_config)
-    config = cl.load_config()
-    for k in config:
-        if k.startswith('printview'):
-            print("%s: %s" % (k, config[k]))
+2. Установить javascript и css файлы
+```sh
+jupyter contrib nbextension install --user
 ```
+3. Включение расширения nbextension
+```sh
+jupyter nbextension enable codefolding/main
+```
+---
+## 2. Установка своего расширения 
+1. ### Найти расположение папки nbextensions
+```sh
+pip show jupyter_contrib_nbextensions
+```
+Местоположение расширений будет примерно таким
+```/Users/username/anaconda3/envs/jupyterexperiments/lib/python3.7/site-packages/jupyter_contrib_nbextensions/nbextensions```
+
+Добавить свое расширение в папку nbextensions
+```sh 
+git clone https://github.com/lifest01/postMessage-jupyter-extension.git
+```
+Итоговое расположение нашего расширения
+```/Users/username/anaconda3/envs/jupyterexperiments/lib/python3.7/site-packages/jupyter_contrib_nbextensions/nbextensions/postMessage-jupyter-extension```
+2. ### Установить и включить расширение
+```sh
+jupyter nbextension install postMessage-jupyter-extension
+jupyter nbextension enable postMessage-jupyter-extension/main
+```
+---
+## 3. Настройка jupyter для взаимодействия с iframe
+Необходимо настройкть `jupyter_notebook_config.py` в папке Jupyter. Папка Jupyter находится в вашем домашнем каталоге, `~/.jupyter`.
+Если файла конфигурации нет то можно его сгенерировать с значениями по умолчанию
+```sh 
+jupyter notebook --generate-config
+```
+В файл ```jupyter_notebook_config.py``` добавить заголовки для работы с iframe.
+```sh
+c.NotebookApp.tornado_settings = {
+    'headers': {
+        "Content-Security-Policy": "frame-ancestors 'self' http://localhost:5005",
+        "Access-Control-Allow-Origin": "http://locahost:5005",
+  }
+}
+```
+    
