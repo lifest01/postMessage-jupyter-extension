@@ -1,8 +1,0 @@
-Type: IPython Notebook Extension
-Name: post-message
-Description: proceed postMessage
-Main: main.js
-Compatibility: 4.x, 5.x
-Link: Readme.md
-Description: postMessage
-Parameters: - none	
