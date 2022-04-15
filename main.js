@@ -9,7 +9,7 @@ define(['base/js/namespace', 'base/js/events'],
                     let cells = Jupyter.notebook.get_cells();
                     for (let i=0; i < cells.length; i++) {
                         cells[i].element.find('div.input')[0].style.display = 'none'
-                        cells[i].element.find('div.output')[0].style.height = 'auto'
+                        cells[i].element.find('div.output')[0].style.height = fit-content
                         cells[i].execute();
                     }
                 }
